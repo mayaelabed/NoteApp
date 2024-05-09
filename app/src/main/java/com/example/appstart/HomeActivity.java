@@ -21,20 +21,34 @@ public class HomeActivity extends AppCompatActivity {
     private TextView textViewUsername, textViewEmail;
     private FirebaseFirestore mFirestore;
     private Button buttonLogout;
+    private Button buttonRedirect;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+// Find the existing button by its ID
+        Button buttonRedirect = findViewById(R.id.buttonRedirect);
 
+        // Set an OnClickListener for the button
+        buttonRedirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start the other activity
+                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         textViewUsername = findViewById(R.id.textViewUsername);
         textViewEmail = findViewById(R.id.textViewEmail);
         buttonLogout = findViewById(R.id.buttonLogout);
         mFirestore = FirebaseFirestore.getInstance();
+
 // Set onClickListener for logout button
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Logout the user
                 FirebaseAuth.getInstance().signOut();
 
@@ -44,6 +58,8 @@ public class HomeActivity extends AppCompatActivity {
                 finish(); // Finish current activity
             }
         });
+
+
 
         // Get current user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

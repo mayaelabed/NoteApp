@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Add a menu item for adding a new note -->
+    <item
+        android:id="@+id/add_note"
+        android:title="@string/add_note"/> <!-- Show the item in the app bar if there's room -->
+
+    <!-- Add other menu items (e.g., delete, edit) as needed -->
+
+</menu>

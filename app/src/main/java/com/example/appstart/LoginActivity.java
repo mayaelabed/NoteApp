@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Redirect user to appropriate activity based on role
                         Intent intent;
                         if ("admin".equals(role)) {
-                            intent = new Intent(LoginActivity.this, AdminActivity.class);
+                            intent = new Intent(LoginActivity.this, MainActivity.class);
                         } else {
                             intent = new Intent(LoginActivity.this, HomeActivity.class);
                         }
