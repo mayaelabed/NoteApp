@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "444256572430",
+    "project_id": "appstart-f0715",
+    "storage_bucket": "appstart-f0715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444256572430:android:3aa48867072af08864585f",
+        "android_client_info": {
+          "package_name": "com.example.appstart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOdVdSiBqsQ2TUkNkA7ncqS_LpHk_AomE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

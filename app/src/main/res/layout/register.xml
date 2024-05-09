@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/gradient_background">
+    <ImageView
+        android:id="@+id/imageViewUserIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_user_icon"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:background="@drawable/edit_text_background"
+        android:padding="12dp"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/medium_gray"
+        android:layout_below="@id/imageViewUserIcon"
+        android:layout_marginBottom="16dp"/>
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextUsername"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edit_text_background"
+        android:padding="12dp"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/medium_gray"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextEmail"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_background"
+        android:padding="12dp"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/medium_gray"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPassword"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_background"
+        android:padding="12dp"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/medium_gray"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextConfirmPassword"
+        android:text="Register"
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"/>
+
+    <!-- Your EditText and Button views here -->
+
+    <TextView
+        android:id="@+id/textViewOtherOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Or connect with"
+        android:textColor="@color/dark_gray"
+        android:layout_below="@id/buttonRegister"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewOtherOptions"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:layout_width="63dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_google" />
+
+        <ImageView
+            android:layout_width="71dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_facebook" />
+    </LinearLayout>
+
+</RelativeLayout>
