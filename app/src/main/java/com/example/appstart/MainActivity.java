@@ -1,118 +1,85 @@
 package com.example.appstart;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
-import java.util.HashSet;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.firestore.Query;
+
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    static ArrayList<String> notes = new ArrayList<>();
-    static ArrayAdapter arrayAdapter;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_note_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        super.onOptionsItemSelected(item);
-
-        if (item.getItemId() == R.id.add_note) {
-
-            // Going from MainActivity to NotesEditorActivity
-            Intent intent = new Intent(getApplicationContext(), NoteEditorActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return false;
-    }
+    FloatingActionButton addNoteBtn;
+    RecyclerView recyclerView;
+    ImageButton menuBtn;
+    NoteAdapter noteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listView = findViewById(R.id.listView);
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.notes", Context.MODE_PRIVATE);
-        HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notes", null);
+        addNoteBtn = findViewById(R.id.add_note_btn);
+        recyclerView = findViewById(R.id.recyler_view);
+        menuBtn = findViewById(R.id.menu_btn);
 
-        if (set == null) {
-
-            notes.add("Example note");
-        } else {
-            notes = new ArrayList(set);
-        }
-
-        // Using custom listView Provided by Android Studio
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, notes);
-
-        listView.setAdapter(arrayAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                // Going from MainActivity to NotesEditorActivity
-                Intent intent = new Intent(getApplicationContext(), NoteEditorActivity.class);
-                intent.putExtra("noteId", i);
-                startActivity(intent);
-
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                final int itemToDelete = i;
-                // To delete the data from the App
-                new AlertDialog.Builder(MainActivity.this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Are you sure?")
-                        .setMessage("Do you want to delete this note?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                notes.remove(itemToDelete);
-                                arrayAdapter.notifyDataSetChanged();
-                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.notes", Context.MODE_PRIVATE);
-                                HashSet<String> set = new HashSet(MainActivity.notes);
-                                sharedPreferences.edit().putStringSet("notes", set).apply();
-                            }
-                        }).setNegativeButton("No", null).show();
-                return true;
-            }
-        });
+        addNoteBtn.setOnClickListener((v)-> startActivity(new Intent(MainActivity.this,NoteDetailsActivity.class)) );
+        menuBtn.setOnClickListener((v)->showMenu() );
+        setupRecyclerView();
     }
 
-    public void onPlusButtonClick(View view) {
-        // Handle the button click here
-        // You can add a new note to your ArrayList and update the adapter
-        notes.add("New Note"); // Example: Add a new note
-        arrayAdapter.notifyDataSetChanged(); // Refresh the ListView
+    void showMenu(){
+        PopupMenu popupMenu  = new PopupMenu(MainActivity.this,menuBtn);
+        popupMenu.getMenu().add("Logout");
+        popupMenu.show();
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                if(menuItem.getTitle()=="Logout"){
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    finish();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    void setupRecyclerView(){
+        Query query  = Utils.getCollectionReferenceForNotes().orderBy("timestamp",Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Note> options = new FirestoreRecyclerOptions.Builder<Note>()
+                .setQuery(query,Note.class).build();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        noteAdapter = new NoteAdapter(options,this);
+        recyclerView.setAdapter(noteAdapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        noteAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        noteAdapter.stopListening();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        noteAdapter.notifyDataSetChanged();
     }
 }

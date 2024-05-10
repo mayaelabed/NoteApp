@@ -1,42 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/gradient_background"
+    android:padding="16dp"
     tools:context=".MainActivity">
-
-    <!-- Adding a TextView -->
-    <TextView
-        android:id="@+id/textView2"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="My Note"
-        android:textColor="@android:color/holo_green_dark"
-        android:textSize="30sp" />
+        android:id="@+id/title_bar_layout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/page_title"
+            android:text="Notes"
+            android:textSize="32sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
-    <!-- Adding a ScrollView -->
-    <ScrollView
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:id="@+id/menu_btn"
+            android:src="@drawable/baseline_menu_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:tint="@color/white"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp">
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar_layout"
+        android:id="@+id/recyler_view"/>
 
-        <!-- Adding a ListView -->
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
 
-    <Button
-        android:id="@+id/plusButton"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onPlusButtonClick"
-        android:text="+" />
-</LinearLayout>
+        android:id="@+id/add_note_btn"
+        android:backgroundTint="@color/white"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/baseline_add_24"
+        />
+
+
+
+</RelativeLayout>

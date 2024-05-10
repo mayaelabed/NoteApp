@@ -37,7 +37,7 @@
         android:id="@+id/buttonRedirect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Another Activity"
+        android:text="+ Note"
         android:layout_below="@id/textViewEmail"
         android:layout_centerInParent="true" />
     <Button

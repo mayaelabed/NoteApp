@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
+//to redirect me to the login page using the id of textViewOtherOptions
         textViewOtherOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
