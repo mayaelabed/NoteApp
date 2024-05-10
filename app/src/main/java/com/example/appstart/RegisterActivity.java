@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appstart.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button buttonRegister;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
+    private TextView textViewOtherOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
-
+        TextView textViewOtherOptions = findViewById(R.id.textViewOtherOptions);
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
-
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,9 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     // Register user with Firebase Authentication
                     mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener() {
+                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
-                                public void onComplete(@NonNull Task task) {
+                                public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Registration success, add user to database
                                         addUserToDatabase(username, email);
@@ -73,9 +75,20 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        textViewOtherOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Replace this with your actual login activity class
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
-    private void addUserToDatabase(String username, String email) {
+
+        private void addUserToDatabase(String username,String email) {
         // Add user data to Firestore or Realtime Database
         // For example:
         String userId = mAuth.getCurrentUser().getUid();

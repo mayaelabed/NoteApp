@@ -78,7 +78,7 @@
         android:id="@+id/textViewOtherOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Or connect with"
+        android:text="login or connect with"
         android:textColor="@color/dark_gray"
         android:layout_below="@id/buttonRegister"
         android:layout_centerHorizontal="true"

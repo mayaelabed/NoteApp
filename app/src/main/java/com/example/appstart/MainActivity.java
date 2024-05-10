@@ -108,4 +108,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onPlusButtonClick(View view) {
+        // Handle the button click here
+        // You can add a new note to your ArrayList and update the adapter
+        notes.add("New Note"); // Example: Add a new note
+        arrayAdapter.notifyDataSetChanged(); // Refresh the ListView
+    }
 }
